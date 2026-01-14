@@ -1,0 +1,32 @@
+name: Java CI with Maven
+
+# Триггеры запуска
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+# Описание задач
+jobs:
+  build:
+
+    # Операционная система
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Забираем код из репозитория
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Устанавливаем Java 17
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      # 3. Сборка и запуск тестов
+      - name: Build with Maven
+        run: mvn clean test
